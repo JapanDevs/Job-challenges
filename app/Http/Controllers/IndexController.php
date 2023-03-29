@@ -10,20 +10,35 @@ class IndexController extends Controller
 
         $numberRange = range(1,100);
         $dataSet = [];
-        foreach($numberRange as $k => $v){
+        
+        
+
+        foreach($numberRange as  $v){                      
             
-            if($v % 3 == 0 && $v % 5 == 0){
-                $dataSet[] = 'ThreeFive'; 
-            }else if($v % 3 == 0){
-                $dataSet[] = 'Three';
-            }else if($v % 5 == 0){
-                $dataSet[] = 'Five';
+            $resultDivison = $this->division($v);
+
+            if(!empty($resultDivison)){
+                $dataSet[] = implode('',$resultDivison);
             }else{
                 $dataSet[] = $v;
-            }          
-        }       
-
+            }
+                     
+        }
+               
         return view('welcome',compact('dataSet'));
+    }
+
+    function division($a ){
+        $modset = [3 => 'Three',5 => 'Five',7 => 'Seven' ,13 => 'Yeeraf'];
+
+        $set = [];
+        foreach($modset as $k => $v){
+           if(fmod($a,$k) == 0){
+                $set[] = $v;                
+           }
+        }
+        
+        return $set;
     }
 
     function calculateArray(Request $request){
